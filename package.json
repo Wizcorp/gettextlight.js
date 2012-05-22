@@ -1,0 +1,16 @@
+{
+  "name"           : "poo",
+  "description"    : "GetText for Javascript",
+  "homepage"       : "https://github.com/jcayzac/poo",
+  "keywords"       : ["string", "locale", "localization", "i18n", "browser"],
+  "author"         : {"name":"Julien Cayzac", "email":"julien.cayzac@gmail.com", "url":"http://julien.cayzac.name/"},
+  "repository"     : {"type": "git", "url": "git://github.com/jcayzac/poo.git"},
+  "main"           : "lib/index.js",
+  "bin"            : {"poo-update": "./bin/update.js"},
+  "version"        : "0.0.1",
+  "engines"        : {"node": ">=0.4.12"},
+  "dependencies": {
+    "optimist": ">=0.3.1",
+    "esprima": "git://github.com/ariya/esprima.git#master"
+  }
+}
