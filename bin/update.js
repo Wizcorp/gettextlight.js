@@ -3,25 +3,28 @@
 
 var assert = require('assert').ok,
 	fs = require('fs'),
+	path = require('path'),
 	events = require('events'),
 	GetText = require('poo').GetText,
 	argv = require('optimist').argv,
-	esprima = require("esprima");
+	esprima = require('esprima'),
+	FolderTraversal = require('FolderTraversal').FolderTraversal;
 
-var js_match = argv.match || '\\.js$',
-	srcdir = argv._[0] || '.',
-	locdir = argv.d || '.';
+var SOURCE_FILES_RE = new RegExp(argv.match || '\\.js$'),
+	SOURCE_FOLDER = argv._[0] || '.',
+	LOCALIZATION_FOLDER = argv.d || '.',
+	GETTEXT_RE = /^d?p?n?gettext$/;
 
-assert(fs.statSync(srcdir).isDirectory(), JSON.stringify(srcdir) + ' is not a directory!');
-assert(fs.statSync(locdir).isDirectory(), JSON.stringify(locdir) + ' is not a directory!');
+assert(fs.statSync(SOURCE_FOLDER).isDirectory(),       '"' + SOURCE_FOLDER       + '" is not a directory!');
+assert(fs.statSync(LOCALIZATION_FOLDER).isDirectory(), '"' + LOCALIZATION_FOLDER + '" is not a directory!');
 
 process.stderr.write('This script will now:\n');
-process.stderr.write('  - Parse all files that match the regex ' + JSON.stringify(js_match) + ' in ' + JSON.stringify(srcdir) + '.\n');
-process.stderr.write('  - Generate/update .po files in ' + JSON.stringify(locdir) + '.\n');
+process.stderr.write('  - Parse all files that match the regex "' + SOURCE_FILES_RE.source + '" in "' + SOURCE_FOLDER + '".\n');
+process.stderr.write('  - Generate/update .po files in "' + LOCALIZATION_FOLDER + '".\n');
 
-function main() {
-	var GETTEXT_RE = /^d?p?n?gettext$/;
-	var current_source_file;
+
+function process_source_file(filePath) {
+	var current_source_file = path.join(SOURCE_FOLDER, filePath);
 
 	function error(ast, message) {
 		console.error(current_source_file + ':' + ast.loc.start.line + ' ' + message);
@@ -125,30 +128,18 @@ function main() {
 			}
 		}
 	}
+	walk_ast(esprima.parse(fs.readFileSync(current_source_file, 'utf-8'), {loc: true}));
+}
 
-	// Process all the Javascript files
-	function walk(dir, match_re) {
-		fs.readdirSync(dir).forEach(function (fn) {
-			fn = dir + '/' + fn;
-			if (match_re.exec(fn)) {
-				current_source_file = fn;
-				walk_ast(esprima.parse(fs.readFileSync(fn, 'utf-8'), {loc: true}));
-			}
-			if (fs.statSync(fn).isDirectory()) {
-				walk(fn, match_re);
-			}
-		});
+FolderTraversal.traverse(
+	SOURCE_FOLDER,
+	function (filePath) {
+		if (SOURCE_FILES_RE.test(filePath)) {
+			return process_source_file(filePath);
+		}
+	},
+	function () {
+		console.log('ok');
 	}
-
-	walk(srcdir, new RegExp(js_match));
-	process.exit(0);
-}
-
-if (argv.y) {
-	main();
-} else {
-	var readline = require('readline');
-	readline.createInterface(process.stdin, process.stderr).on('line', main);
-	process.stderr.write('Press Enter to continue, or Ctrl+C to abort...\n');
-}
+);
 
