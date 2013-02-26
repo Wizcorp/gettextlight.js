@@ -50,16 +50,76 @@ function on_localization_data(data) {
 ```
 
 ## API
-* `GetText.gettext(msgid)` is equivalent to `GetText.dpngettext(null, null, msgid, null, null)`.
-* `GetText.ngettext(msgid, msgid_plural, n)` is equivalent to `GetText.dpngettext(null, null, msgid, msgid_plural, n)`.
-* `GetText.dgettext(domain, msgid)` is equivalent to `GetText.dpngettext(domain, null, msgid, null, null)`.
-* `GetText.dngettext(domain, msgid, msgid_plural, n)` is equivalent to `GetText.dpngettext(domain, null, msgid, msgid_plural, n)`.
-* `GetText.pgettext(msgctxt, msgid)` is equivalent to `GetText.dpngettext(null, msgctxt, msgid, null, null)`.
-* `GetText.pngettext(msgctxt, msgid, msgid_plural, n)` is equivalent to `GetText.dpngettext(null, msgctxt, msgid, msgid_plural, n)`.
-* `GetText.dpgettext(domain, msgctxt, msgid)` is equivalent to `GetText.dpngettext(domain, msgctxt, msgid, null, null)`.
-* `GetText.dpngettext(domain, msgctxt, msgid, msgid_plural, n)`.
-* `GetText.load(source, error_handler)` is equivalent to `GetText.loadDomain('messages', source, error_handler)`..
-* `GetText.loadDomain(domain, source, error_handler)` binds `source` (the content of a .po file) to the specified domain. `error_handler` will be called every time an error is encountered.
-* `GetText.release()` is equivalent to `GetText.releaseDomain('messages')`.
-* `GetText.releaseDomain(domain)` releases all data currently bound to the specified domain.
-* `GetText.reset()` releases all data.
+### Load a string from default language file
+*gettext(msgid)*
+```javascript
+var greeting = GetText.gettext("Hello!");
+```
+> Equivalent to `GetText.dpngettext(null, null, msgid, null, null)`.
+
+### Load a plural string from default language file
+*ngettext(msgid, msgid_plural, n)*
+```javascript
+GetText.ngettext("Comment", "Comments", 10);
+```
+> Equivalent to `GetText.dpngettext(null, null, msgid, msgid_plural, n)`.
+
+### Load a string from a specific language file
+*dgettext(domain, msgid)*
+```javascript
+var greeting = GetText.dgettext("ja", "Hello!");
+```
+> Equivalent to `GetText.dpngettext(domain, null, msgid, null, null)`.
+
+### Load a plural string from a specific language file
+*dngettext(domain, msgid, msgid_plural, n)*
+```javascript
+GetText.dngettext("ja", "Comment", "Comments", 10);
+```
+> Equivalent to `GetText.dpngettext(domain, null, msgid, msgid_plural, n)`.
+
+### Load a string of a specific context
+*pgettext(msgctxt, msgid)*
+```javascript
+GetText.pgettext("menu items", "File");
+```
+> Equivalent to `GetText.dpngettext(null, msgctxt, msgid, null, null)`.
+
+### Load a plural string of a specific context
+*pngettext(msgctxt, msgid, msgid_plural, n)*
+```javascript
+GetText.pngettext("menu items", "Recent File", "Recent Files", 3)*
+```
+> Equivalent to `GetText.dpngettext(null, msgctxt, msgid, msgid_plural, n)`.
+
+### Load a string of a specific context from specific language file
+*dpgettext(domain, msgctxt, msgid)*
+```javascript
+GetText.dpgettext("ja", "menu items", "File");
+```
+> Equivalent to `GetText.dpngettext(domain, msgctxt, msgid, null, null)`.
+
+### Load a plural string of a specific context from specific language file
+*dpngettext(domain, msgctxt, msgid, msgid_plural, n)*
+```javascript
+GetText.dpngettext("ja", "menu items", "Recent File", "Recent Files", 3)
+```
+
+### Bind the source (.po file) to a specific domain.
+*GetText.loadDomain(domain, source, error_handler)*
+> `error_handler` will be called every time an error is encountered.
+
+### Bind the source with the domain 'message'
+*GetText.load(source, error_handler)*
+> Equivalent to `GetText.loadDomain('messages', source, error_handler)`
+
+### Release all data bound to the domain 'messages'
+*release()*
+> Equivalent to `GetText.releaseDomain('messages')`.
+
+### Releases all data bound to the specified domain.
+*releaseDomain(domain)*
+
+### Release all data
+*reset()*
+
