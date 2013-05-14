@@ -1,0 +1,11 @@
+{
+	"name": "gettextlight.js",
+	"repo": "Wizcorp/gettextlight.js",
+	"description": "Lightweight GetText for Javascript",
+	"version": "1.0.0",
+	"keywords": ["gettext", "gettextlight"],
+	"scripts": [
+		"lib/index.js"
+	],
+	"main": "lib/index.js"
+}
