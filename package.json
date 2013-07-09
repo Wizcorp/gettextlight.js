@@ -10,7 +10,7 @@
   },
   "repository"     : {
 	  "type": "git",
-	  "url": "git://github.com/jcayzac/gettextlight.git"
+	  "url": "git@github.com:Wizcorp/gettextlight.js.git"
   },
   "main"           : "lib/index.js",
   "bin"            : {
