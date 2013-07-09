@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 "use strict";
 
-var assert = require('assert').ok,
-	fs = require('fs'),
-	path = require('path'),
-	events = require('events'),
-	GetText = require('gettextlight').GetText,
-	argv = require('optimist').argv,
-	esprima = require('esprima'),
-	FolderTraversal = require('FolderTraversal').FolderTraversal;
+var assert = require('assert').ok;
+var fs = require('fs');
+var path = require('path');
+var events = require('events');
+var GetText = require('../lib/index.js');
+var argv = require('optimist').argv;
+var esprima = require('esprima');
+var FolderTraversal = require('FolderTraversal').FolderTraversal;
 
-var SOURCE_FILES_RE = new RegExp(argv.match || '\\.js$'),
-	SOURCE_FOLDER = argv._[0] || '.',
-	LOCALIZATION_FOLDER = argv.d || '.',
-	GETTEXT_RE = /^d?p?n?gettext$/,
-	COMMENT_LOCATION_RE = /^#:\s*([^:]+):(\d+)/,
-	FILENAME_TO_DOMAIN_RE = /([^\/]+)\.po/i;
+var SOURCE_FILES_RE = new RegExp(argv.match || '\\.js$');
+var SOURCE_FOLDER = argv._[0] || '.';
+var LOCALIZATION_FOLDER = argv.d || '.';
+var GETTEXT_RE = /^d?p?n?gettext$/;
+var COMMENT_LOCATION_RE = /^#:\s*([^:]+):(\d+)/;
+var FILENAME_TO_DOMAIN_RE = /([^\/]+)\.po/i;
 
 assert(fs.statSync(SOURCE_FOLDER).isDirectory(),       '"' + SOURCE_FOLDER       + '" is not a directory!');
 assert(fs.statSync(LOCALIZATION_FOLDER).isDirectory(), '"' + LOCALIZATION_FOLDER + '" is not a directory!');
@@ -160,7 +160,8 @@ function process_source_file(filePath) {
 			while (object.type === 'MemberExpression') {
 				object = object.property;
 			}
-			if (object.name === 'GetText' && GETTEXT_RE.test(func)) {
+
+			if (object.name.toLowerCase() === 'gettext' && GETTEXT_RE.test(func)) {
 				var args = ast.arguments.map(function (a) {
 					return a.type === 'Literal' ? a.value : null;
 				});
