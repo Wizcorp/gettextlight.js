@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
+
 var assert = require('assert').ok;
 var fs = require('fs');
 var path = require('path');
