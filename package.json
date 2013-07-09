@@ -3,12 +3,23 @@
   "description"    : "Lightweight GetText for Javascript",
   "homepage"       : "https://github.com/jcayzac/gettextlight.js",
   "keywords"       : ["string", "locale", "localization", "i18n", "browser"],
-  "author"         : {"name":"Julien Cayzac", "email":"julien.cayzac@gmail.com", "url":"http://julien.cayzac.name/"},
-  "repository"     : {"type": "git", "url": "git://github.com/jcayzac/gettextlight.git"},
+  "author"         : {
+	  "name":"Julien Cayzac",
+	  "email":"julien.cayzac@gmail.com",
+	  "url":"http://julien.cayzac.name/"
+  },
+  "repository"     : {
+	  "type": "git",
+	  "url": "git@github.com:Wizcorp/gettextlight.js.git"
+  },
   "main"           : "lib/index.js",
-  "bin"            : {"update-po-files": "./bin/update-po-files.js"},
+  "bin"            : {
+	  "update-po-files": "./bin/update-po-files.js"
+  },
   "version"        : "0.0.1",
-  "engines"        : {"node": ">=0.4.12"},
+  "engines"        : {
+	  "node": ">=0.4.12"
+  },
   "dependencies": {
     "FolderTraversal": "git://github.com/jcayzac/FolderTraversal.git#0.0.2",
     "optimist": ">=0.3.1",

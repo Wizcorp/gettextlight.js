@@ -123,3 +123,7 @@ GetText.dpngettext("ja", "menu items", "Recent File", "Recent Files", 3)
 ### Release all data
 *reset()*
 
+### Generate a .po file
+```bash
+node bin/update-po-files.js ../www/
+```
