@@ -162,7 +162,7 @@ function process_source_file(filePath) {
 				object = object.property;
 			}
 
-			if (object.name.toLowerCase() === 'gettext' && GETTEXT_RE.test(func)) {
+			if (object.name && object.name.toLowerCase() === 'gettext' && GETTEXT_RE.test(func)) {
 				var args = ast.arguments.map(function (a) {
 					return a.type === 'Literal' ? a.value : null;
 				});
