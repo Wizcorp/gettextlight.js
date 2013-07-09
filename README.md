@@ -125,5 +125,6 @@ GetText.dpngettext("ja", "menu items", "Recent File", "Recent Files", 3)
 
 ### Generate a .po file
 ```bash
-node bin/update-po-files.js <path>
+node bin/update-po-files.js <source_path> [-d <dest_path>]
 ```
+> To be able to extract the data, the required object has to be named `gettext` (case insensitive)
