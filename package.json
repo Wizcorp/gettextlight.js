@@ -1,29 +1,25 @@
 {
-	"name" : "gettextlight",
-	"description" : "Lightweight GetText for Javascript",
-	"homepage" : "https://github.com/Wizcorp/gettextlight.js",
-	"keywords" : ["string", "locale", "localization", "i18n", "browser"],
-	"author" : "Wizcorp <info@wizcorp.jp>",
-	"contributors" : [
-		{
-			"name":"Julien Cayzac",
-			"email":"jcayzac@wizcorp.jp"
-		},
-		{
-			"name":"Micky Brunetti",
-			"email":"mbrunetti@wizcorp.jp"
-		}
+	"name": "gettextlight",
+	"description": "Lightweight GetText for Javascript",
+	"homepage": "https://github.com/Wizcorp/gettextlight.js",
+	"keywords": ["string", "locale", "localization", "i18n", "browser"],
+	"author": "Julien Cayzac <julien.cayzac@gmail.com>",
+	"contributors": [
+		"Micky Brunetti <mbrunetti@wizcorp.jp> (https://github.com/micky2be)"
 	],
-	"repository"     : {
-		"type": "git",
-		"url": "git://github.com/jcayzac/gettextlight.git"
+	"bugs": {
+		"url" : "http://github.com/Wizcorp/gettextlight.js/issues"
 	},
-	"main"           : "lib/index.js",
-	"bin"            : {
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/Wizcorp/gettextlight.js.git"
+	},
+	"main": "lib/index.js",
+	"bin": {
 		"update-po-files": "./bin/update-po-files.js"
 	},
-	"version"        : "1.1.0",
-	"engines"        : {
+	"version": "1.1.0",
+	"engines": {
 		"node": ">=0.4.12"
 	},
 	"dependencies": {
@@ -36,5 +32,6 @@
 	},
 	"scripts": {
 		"lint": "find {lib,bin} -iname '*.js' -exec node_modules/.bin/jshint --config .jshint {} +"
-	}
+	},
+	"license": "MIT"
 }
