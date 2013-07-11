@@ -1,23 +1,24 @@
 #!/usr/bin/env node
 "use strict";
 
-var assert = require('assert').ok,
-	fs = require('fs'),
-	path = require('path'),
-	events = require('events'),
-	GetText = require('../lib/index.js').GetText,
-	argv = require('optimist').argv,
-	esprima = require('esprima'),
-	FolderTraversal = require('FolderTraversal').FolderTraversal;
 
-var SOURCE_FILES_RE = new RegExp(argv.match || '\\.js$'),
-	SOURCE_FOLDER = argv._[0] || '.',
-	LOCALIZATION_FOLDER = argv.d || '.',
-	GETTEXT_RE = /^d?p?n?gettext$/,
-	COMMENT_LOCATION_RE = /^#:\s*([^:]+):(\d+)/,
-	FILENAME_TO_DOMAIN_RE = /([^\/]+)\.po/i;
+var assert = require('assert').ok;
+var fs = require('fs');
+var path = require('path');
+var events = require('events');
+var GetText = require('../lib/index.js');
+var argv = require('optimist').argv;
+var esprima = require('esprima');
+var FolderTraversal = require('FolderTraversal').FolderTraversal;
 
-assert(fs.statSync(SOURCE_FOLDER).isDirectory(),       '"' + SOURCE_FOLDER       + '" is not a directory!');
+var SOURCE_FILES_RE = new RegExp(argv.match || '\\.js$');
+var SOURCE_FOLDER = argv._[0] || '.';
+var LOCALIZATION_FOLDER = argv.d || '.';
+var GETTEXT_RE = /^d?p?n?gettext$/;
+var COMMENT_LOCATION_RE = /^#:\s*([^:]+):(\d+)/;
+var FILENAME_TO_DOMAIN_RE = /([^\/]+)\.po/i;
+
+assert(fs.statSync(SOURCE_FOLDER).isDirectory(), '"' + SOURCE_FOLDER + '" is not a directory!');
 assert(fs.statSync(LOCALIZATION_FOLDER).isDirectory(), '"' + LOCALIZATION_FOLDER + '" is not a directory!');
 
 process.stderr.write('This script will now:\n');
@@ -25,31 +26,31 @@ process.stderr.write('  - Parse all files that match the regex "' + SOURCE_FILES
 process.stderr.write('  - Generate/update .po files in "' + LOCALIZATION_FOLDER + '".\n');
 
 
-var domains = {},
-	present = {};
+var domains = {};
+var present = {};
 
 var NOW_PO = (function () {
-	var d     = new Date(),
-		year  = d.getUTCFullYear(),
-		month = d.getUTCMonth(),
-		day   = d.getUTCDate(),
-		hour  = d.getUTCHours(),
-		min   = d.getUTCMinutes();
+	var d = new Date();
+	var year = d.getUTCFullYear();
+	var month = d.getUTCMonth();
+	var day = d.getUTCDate();
+	var hour = d.getUTCHours();
+	var min = d.getUTCMinutes();
 
-	year  = (year  < 1000 ? year < 100 ? year < 10 ? year < 0 ? '' : '000' : '00' : '0' : '') + year;
+	year = (year < 1000 ? year < 100 ? year < 10 ? year < 0 ? '' : '000' : '00' : '0' : '') + year;
 	month = (month < 10 ? '0' : '') + month;
-	day   = (day   < 10 ? '0' : '') + day;
-	hour  = (hour  < 10 ? '0' : '') + hour;
-	min   = (min   < 10 ? '0' : '') + min;
+	day = (day < 10 ? '0' : '') + day;
+	hour = (hour < 10 ? '0' : '') + hour;
+	min = (min < 10 ? '0' : '') + min;
 
 	return year.concat('-', month, '-', day, ' ', hour, ':', min, '+0000');
-} ());
+}());
 
 function process_po_file(filePath, domainName) {
-	var source = fs.readFileSync(path.join(LOCALIZATION_FOLDER, filePath), 'utf-8'),
-		tokens = [],
-		toc = {},
-		location = null;
+	var source = fs.readFileSync(path.join(LOCALIZATION_FOLDER, filePath), 'utf-8');
+	var tokens = [];
+	var toc = {};
+	var location = null;
 
 	GetText.parse(domainName, source, function (type, data) {
 		switch (type) {
@@ -95,22 +96,22 @@ function process_po_file(filePath, domainName) {
 
 function process_source_file(filePath) {
 	function entryHandler(entry) {
-		var domainName = entry.domain || 'messages',
-			domain = domains[domainName],
-			presentForDomain = present[domainName],
-			fqid = (entry.msgctxt || '') + '\u0004' + entry.msgid;
+		var domainName = entry.domain || 'messages';
+		var domain = domains[domainName];
+		var presentForDomain = present[domainName];
+		var fqid = (entry.msgctxt || '') + '\u0004' + entry.msgid;
 
 		if (domain === undefined) {
 			// New domain! Just create it at the root of the localization folder and let the user move it later.
 			domain = domains[domainName] = {};
 			domain[domainName + '.po'] = {
 				tokens: [
-					['header', {name: 'Project-Id-Version',        value: 'your-project'}],
-					['header', {name: 'POT-Creation-Date',         value: NOW_PO}],
-					['header', {name: 'MIME-Version',              value: '1.0'}],
-					['header', {name: 'Content-Type',              value: 'text/plain; charset=UTF-8'}],
+					['header', {name: 'Project-Id-Version', value: 'your-project'}],
+					['header', {name: 'POT-Creation-Date', value: NOW_PO}],
+					['header', {name: 'MIME-Version', value: '1.0'}],
+					['header', {name: 'Content-Type', value: 'text/plain; charset=UTF-8'}],
 					['header', {name: 'Content-Transfer-Encoding', value: '8bit'}],
-					['header', {name: 'Plural-Forms',              value: 'nplurals=2; plural=n != 1;'}],
+					['header', {name: 'Plural-Forms', value: 'nplurals=2; plural=n != 1;'}],
 					['blank']
 				],
 				toc: {}
@@ -130,10 +131,12 @@ function process_source_file(filePath) {
 				pos = file.toc[fqid] = file.tokens.length;
 				t = {
 					msgid: entry.msgid,
-					msgstr:[''],
+					msgstr: [''],
 					location: ['', 0]
 				};
-				if (entry.msgctxt !== undefined) t.msgctxt = entry.msgctxt;
+				if (entry.msgctxt !== undefined) {
+					t.msgctxt = entry.msgctxt;
+				}
 				file.tokens.push(['entry', t]);
 				file.tokens.push(['blank']);
 			}
@@ -141,7 +144,9 @@ function process_source_file(filePath) {
 			t = file.tokens[pos][1];
 			t.location[0] = entry.file;
 			t.location[1] = entry.line;
-			if (entry.msgid_plural !== undefined) t.msgid_plural = entry.msgid_plural;
+			if (entry.msgid_plural !== undefined) {
+				t.msgid_plural = entry.msgid_plural;
+			}
 
 		}
 	}
@@ -154,18 +159,21 @@ function process_source_file(filePath) {
 		if (ast.type === 'CallExpression' &&
 			ast.callee.type === 'MemberExpression' &&
 			ast.callee.object.type !== 'ThisExpression'
-		) {
+			) {
 			var object = ast.callee.object,
 				func = ast.callee.property.name;
 			while (object.type === 'MemberExpression') {
 				object = object.property;
 			}
-			if (object.name === 'GetText' && GETTEXT_RE.test(func)) {
+
+			if (object.name && object.name.toLowerCase() === 'gettext' && GETTEXT_RE.test(func)) {
 				var args = ast.arguments.map(function (a) {
 					return a.type === 'Literal' ? a.value : null;
 				});
 				var len = args.length >>> 0;
-				while (args[len - 1] === null) --len;
+				while (args[len - 1] === null) {
+					--len;
+				}
 				args = args.slice(0, len);
 
 				var entry = {
@@ -246,6 +254,7 @@ function process_source_file(filePath) {
 			}
 		}
 	}
+
 	walk_ast(esprima.parse(fs.readFileSync(path.join(SOURCE_FOLDER, filePath), 'utf-8'), {loc: true}));
 }
 
@@ -265,7 +274,7 @@ function write_all_po_files() {
 					tokenType = token[0],
 					tokenData = token[1];
 
-				switch(tokenType) {
+				switch (tokenType) {
 				case 'comment':
 					data.push(tokenData);
 					continue;
@@ -305,8 +314,10 @@ function write_all_po_files() {
 
 					if (numStr === 1) {
 						data.push(prefix + 'msgstr ' + JSON.stringify(tokenData.msgstr[0]));
-					} else for (var strIndex = 0; strIndex < numStr; ++strIndex) {
-						data.push(prefix + 'msgstr[' + strIndex + '] ' + JSON.stringify(tokenData.msgstr[strIndex]));
+					} else {
+						for (var strIndex = 0; strIndex < numStr; ++strIndex) {
+							data.push(prefix + 'msgstr[' + strIndex + '] ' + JSON.stringify(tokenData.msgstr[strIndex]));
+						}
 					}
 					continue;
 				}
