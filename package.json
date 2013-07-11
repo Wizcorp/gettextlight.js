@@ -1,34 +1,38 @@
 {
-  "name"           : "gettextlight",
-  "description"    : "Lightweight GetText for Javascript",
-  "homepage"       : "https://github.com/jcayzac/gettextlight.js",
-  "keywords"       : ["string", "locale", "localization", "i18n", "browser"],
-  "author"         : {
-	  "name":"Julien Cayzac",
-	  "email":"julien.cayzac@gmail.com",
-	  "url":"http://julien.cayzac.name/"
-  },
-  "repository"     : {
-	  "type": "git",
-	  "url": "git@github.com:Wizcorp/gettextlight.js.git"
-  },
-  "main"           : "lib/index.js",
-  "bin"            : {
-	  "update-po-files": "./bin/update-po-files.js"
-  },
-  "version"        : "0.0.1",
-  "engines"        : {
-	  "node": ">=0.4.12"
-  },
-  "dependencies": {
-    "FolderTraversal": "git://github.com/jcayzac/FolderTraversal.git#0.0.2",
-    "optimist": ">=0.3.1",
-    "esprima": "git://github.com/ariya/esprima.git#master"
-  },
-  "devDependencies": {
-    "jshint": ">=0.7.1"
-  },
-  "scripts": {
-    "lint": "find {lib,bin} -iname '*.js' -exec node_modules/.bin/jshint --config .jshint {} +"
-  }
+	"name": "gettextlight",
+	"description": "Lightweight GetText for Javascript",
+	"homepage": "https://github.com/Wizcorp/gettextlight.js",
+	"keywords": ["string", "locale", "localization", "i18n", "browser"],
+	"author": "Wizcorp (http://www.wizcorp.jp)",
+	"contributors": [
+		"Micky Brunetti <mbrunetti@wizcorp.jp> (https://github.com/micky2be)",
+		"Julien Cayzac <julien.cayzac@gmail.com> (http://julien.cayzac.name)"
+	],
+	"bugs": {
+		"url" : "http://github.com/Wizcorp/gettextlight.js/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/Wizcorp/gettextlight.js.git"
+	},
+	"main": "lib/index.js",
+	"bin": {
+		"update-po-files": "./bin/update-po-files.js"
+	},
+	"version": "1.1.0",
+	"engines": {
+		"node": ">=0.4.12"
+	},
+	"dependencies": {
+		"FolderTraversal": "git://github.com/jcayzac/FolderTraversal.git#0.0.2",
+		"optimist": "~0.3.1",
+		"esprima": "git://github.com/ariya/esprima.git#1.0.0"
+	},
+	"devDependencies": {
+		"jshint": "1.0.0"
+	},
+	"scripts": {
+		"lint": "find {lib,bin} -iname '*.js' -exec node_modules/.bin/jshint --config .jshint {} +"
+	},
+	"license": "MIT"
 }
