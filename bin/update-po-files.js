@@ -308,12 +308,17 @@ function write_all_po_files() {
 					data.push(prefix + 'msgid ' + JSON.stringify(tokenData.msgid));
 
 					// A plural is provided
-					if (tokenData.msgid_plural !== undefined) {
+					var havePlural = tokenData.msgid_plural !== undefined;
+					if (havePlural) {
 						data.push(prefix + 'msgid_plural ' + JSON.stringify(tokenData.msgid_plural));
 					}
 
 					if (numStr === 1) {
-						data.push(prefix + 'msgstr ' + JSON.stringify(tokenData.msgstr[0]));
+						if (havePlural) {
+							data.push(prefix + 'msgstr[0] ' + JSON.stringify(tokenData.msgstr[0]));
+						} else {
+							data.push(prefix + 'msgstr ' + JSON.stringify(tokenData.msgstr[0]));
+						}
 					} else {
 						for (var strIndex = 0; strIndex < numStr; ++strIndex) {
 							data.push(prefix + 'msgstr[' + strIndex + '] ' + JSON.stringify(tokenData.msgstr[strIndex]));
