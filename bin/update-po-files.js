@@ -119,7 +119,7 @@ function process_source_file(filePath) {
 		}
 
 		if (presentForDomain === undefined) {
-			presentForDomain = present[domainName] = {}
+			presentForDomain = present[domainName] = {};
 		}
 		presentForDomain[fqid] = true;
 
@@ -296,9 +296,9 @@ function write_all_po_files() {
 						prefix = presentInSource ? '' : '#~ ';
 
 					// Entry is currently present in source code, so add its location
-					if (presentInSource) {
+					/*if (presentInSource) {
 						data.push('#: ' + tokenData.location.join(':'));
-					}
+					}*/
 
 					// A context is provided
 					if (tokenData.msgctxt !== undefined) {
@@ -318,6 +318,9 @@ function write_all_po_files() {
 					continue;
 				}
 			}
+
+			// add final blank line
+			data.push('');
 			var finalPath = path.join(LOCALIZATION_FOLDER, filePath),
 				tmpPath = finalPath + '.part';
 
