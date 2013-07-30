@@ -307,17 +307,13 @@ function write_all_po_files() {
 
 					data.push(prefix + 'msgid ' + JSON.stringify(tokenData.msgid));
 
-					// A plural is provided
 					if (tokenData.msgid_plural !== undefined) {
 						data.push(prefix + 'msgid_plural ' + JSON.stringify(tokenData.msgid_plural));
-					}
-
-					if (numStr === 1) {
-						data.push(prefix + 'msgstr ' + JSON.stringify(tokenData.msgstr[0]));
-					} else {
 						for (var strIndex = 0; strIndex < numStr; ++strIndex) {
 							data.push(prefix + 'msgstr[' + strIndex + '] ' + JSON.stringify(tokenData.msgstr[strIndex]));
 						}
+					} else {
+						data.push(prefix + 'msgstr ' + JSON.stringify(tokenData.msgstr[0]));
 					}
 					continue;
 				}
