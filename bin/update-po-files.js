@@ -295,11 +295,6 @@ function write_all_po_files() {
 						presentInSource = (fqid in presentForDomain),
 						prefix = presentInSource ? '' : '#~ ';
 
-					// Entry is currently present in source code, so add its location
-					/*if (presentInSource) {
-						data.push('#: ' + tokenData.location.join(':'));
-					}*/
-
 					// A context is provided
 					if (tokenData.msgctxt !== undefined) {
 						data.push(prefix + 'msgctxt' + JSON.stringify(tokenData.msgctxt));
