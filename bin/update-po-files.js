@@ -230,7 +230,7 @@ function process_source_file(filePath) {
 					break;
 				}
 
-				if (numargs !== ast.arguments.length) {
+				if (ast.arguments.length < numargs) {
 					return error(ast, func + '() expects ' + numargs + ' arguments, found ' + ast.arguments.length);
 				}
 
